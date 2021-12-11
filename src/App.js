@@ -1,25 +1,33 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import ExpenseManager from './components/ExpenseManager/ExpenseManager';
+import DecryptForm from './components/DecryptForm/DecryptForm';
+
+class App extends React.Component {
+  state = {
+    correctPassword: false,
+  };
+
+  updatePassword = (isValid) => {
+    this.setState({ correctPassword: isValid });
+  };
+
+  render() {
+    if (!this.state.correctPassword) {
+      return (
+        <div className='Wrapper'>
+          <DecryptForm updatePassword={this.updatePassword} />
+        </div>
+      );
+    } else {
+      return (
+        <div className='Wrapper'>
+          <ExpenseManager />
+        </div>
+      );
+    }
+  }
 }
 
 export default App;
