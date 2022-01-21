@@ -14,8 +14,8 @@
 .Filter-Button,
 .Date-Picker {
   margin-bottom: 10px;
-  width: 500px;
   max-width: 500px;
+  width: 95%;
 }
 
 .Date-Filter,
@@ -32,6 +32,7 @@
 .Amount-Second-Value,
 .Date-Picker-First,
 .Date-Picker-Second,
+.Date-Picker div,
 .Filter-Button > button {
   width: 100%;
 }

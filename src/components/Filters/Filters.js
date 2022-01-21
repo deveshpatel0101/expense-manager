@@ -52,14 +52,14 @@ class Filters extends React.Component {
               <DatePicker
                 placeholder='Start'
                 onChange={this.handleStartDateChange}
-                style={{ width: '49%' }}
+                style={{ width: '99%' }}
               />
             </div>
             <div className='Date-Picker-Second'>
               <DatePicker
                 placeholder='End'
                 onChange={this.handleStartDateChange}
-                style={{ width: '49%' }}
+                style={{ width: '99%' }}
               />
             </div>
           </div>
@@ -101,14 +101,14 @@ class Filters extends React.Component {
               value={minAmount}
               placeholder='Min Amount'
               onChange={(e) => this.setState({ minAmount: e })}
-              style={{ width: '98%' }}
+              style={{ width: '99%' }}
             />
           </div>
           <div className='Amount-Second-Value'>
             <InputNumber
               min={0}
               max={Number.MAX_SAFE_INTEGER}
-              style={{ width: '98%' }}
+              style={{ width: '99%' }}
               value={maxAmount}
               placeholder='Max Amount'
               onChange={(e) => this.setState({ maxAmount: e })}

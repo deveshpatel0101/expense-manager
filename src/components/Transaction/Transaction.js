@@ -51,7 +51,7 @@ class Transaction extends React.Component {
                         <div className='Transaction-Date'>
                             {moment
                                 .unix(this.props.transaction.date)
-                                .format('MMM-DD-YYYY')}
+                                .format('Do MMM YYYY')}
                         </div>
                     </div>
                     <div className='Transaction-Note-Amount'>
