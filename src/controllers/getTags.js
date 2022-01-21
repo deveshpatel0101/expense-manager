@@ -1,3 +1,5 @@
+import { validateResponse } from '../utils/validateResponse';
+
 const URL = 'https://dp-expense-manager-api.herokuapp.com';
 
 export const getTags = async (page = 1, perPage = 10) => {
@@ -9,5 +11,6 @@ export const getTags = async (page = 1, perPage = 10) => {
             },
         }
     );
+    validateResponse(response);
     return response.json();
 };

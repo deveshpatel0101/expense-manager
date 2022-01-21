@@ -1,3 +1,5 @@
+import { validateResponse } from '../utils/validateResponse';
+
 const URL = 'https://dp-expense-manager-api.herokuapp.com';
 export const getTransactions = async (page = 1, perPage = 10, filters = {}) => {
     let filteredURL = `${URL}/transactions?page=${page}&perPage=${perPage}`;
@@ -10,6 +12,7 @@ export const getTransactions = async (page = 1, perPage = 10, filters = {}) => {
             Authorization: localStorage.getItem('token'),
         },
     });
+    validateResponse(response);
     return response.json();
 };
 
@@ -22,7 +25,8 @@ export const addTransaction = async (data) => {
             Authorization: localStorage.getItem('token'),
         },
     });
-    return response.json;
+    validateResponse(response);
+    return response.json();
 };
 
 export const updateTransaction = async (data) => {
@@ -34,7 +38,8 @@ export const updateTransaction = async (data) => {
             Authorization: localStorage.getItem('token'),
         },
     });
-    return response.json;
+    validateResponse(response);
+    return response.json();
 };
 
 export const deleteTransaction = async (data) => {
@@ -46,5 +51,6 @@ export const deleteTransaction = async (data) => {
             Authorization: localStorage.getItem('token'),
         },
     });
-    return response.json;
+    validateResponse(response);
+    return response.json();
 };
