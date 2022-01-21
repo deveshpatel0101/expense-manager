@@ -1,9 +1,4 @@
-export const addTransactions = (transactions = []) => ({
-  type: 'ADD_TRANSACTIONS',
-  transactions,
-});
-
-export const addTransaction = (transaction = {}) => ({
-  type: 'ADD_TRANSACTION',
-  transaction,
+export const setTransactions = (transactions = []) => ({
+    type: 'SET_TRANSACTIONS',
+    transactions,
 });

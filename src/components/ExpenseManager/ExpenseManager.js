@@ -1,33 +1,22 @@
 import React from 'react';
 import './ExpenseManager.css';
-import { connect } from 'react-redux';
 
 import Transactions from '../Transactions/Transactions';
-import { getTransactions } from '../../controllers/getTransactions';
-import { addTransactions } from '../../redux/actions/transactions';
 import Filters from '../Filters/Filters';
+import Navigation from '../Navigation/Navigation';
+import AddTransaction from '../AddTransaction/AddTransaction';
 
 class ExpenseManager extends React.Component {
-  componentDidMount() {
-    getTransactions(this.props.keys).then((transactions) => {
-      this.props.dispatch(addTransactions(transactions));
-    });
-  }
-
   render() {
     return (
       <div className='EM-Container'>
         <Filters />
         <Transactions />
+        <Navigation />
+        <AddTransaction />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    keys: state.keys,
-  };
-};
-
-export default connect(mapStateToProps)(ExpenseManager);
+export default ExpenseManager;

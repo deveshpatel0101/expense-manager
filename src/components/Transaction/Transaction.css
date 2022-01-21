@@ -1,0 +1,73 @@
+.Transaction-Container {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.Transaction-Container:hover {
+    cursor: pointer;
+}
+
+.Transaction-Container > div {
+    padding: 5px;
+}
+
+.Transaction-Container.Transaction-Credit {
+    background-color: #d7ffd7;
+    border: 1.5px solid #5fff5f;
+    transition: 0.3s;
+}
+
+.Transaction-Container.Transaction-Credit:hover {
+    background-color: #aaffaa;
+    border: 1.5px solid #5fff5f;
+}
+
+.Transaction-Container.Transaction-Debit {
+    background-color: #ffd7d7;
+    border: 1.5px solid #ff8e8e;
+    transition: 0.3s;
+}
+
+.Transaction-Container.Transaction-Debit:hover {
+    background-color: #ffbdbd;
+    border: 1.5px solid #ff8e8e;
+}
+
+.Transaction .Transaction-Tag-Date {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 5px;
+}
+
+.Transaction-Tag-Date .Transaction-Tag {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.Transaction-Tag-Date .Transaction-Date {
+    min-width: 75px;
+    text-align: right;
+    font-size: 12px;
+}
+
+.Transaction .Transaction-Note-Amount {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Transaction-Note-Amount .Transaction-Note {
+    word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+.Transaction-Note-Amount .Transaction-Amount {
+    font-weight: 600;
+    text-align: right;
+    font-size: 14px;
+    min-width: 75px;
+}
