@@ -8,6 +8,12 @@ const paginationReducer = (state = paginationDefaultState, action) => {
                 page: action.pagination.page,
                 perPage: action.pagination.perPage,
             };
+        case 'RESET_PAGINATION':
+            return {
+                ...state,
+                page: paginationDefaultState.page,
+                perPage: paginationDefaultState.perPage,
+            };
         default:
             return state;
     }

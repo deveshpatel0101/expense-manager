@@ -2,131 +2,216 @@ import React from 'react';
 import './Filters.css';
 import { connect } from 'react-redux';
 import { DatePicker, Select, InputNumber, Button } from 'antd';
+import moment from 'moment';
 
-const { RangePicker } = DatePicker;
+import { getTransactions } from '../../controllers/transactions';
+import { setTransactions } from '../../redux/actions/transactions';
+import { resetPagination } from '../../redux/actions/pagination';
+
 const { Option } = Select;
 
 class Filters extends React.Component {
-  state = {
-    dateFilterOption: 'one-month',
-    tag: null,
-    type: null,
-    minAmount: null,
-    maxAmount: null,
-  };
+    state = {
+        dateFilterOption: 'one-month',
+        tagId: null,
+        minAmount: null,
+        maxAmount: null,
+        fromDate: moment().startOf('month').unix(),
+        toDate: moment().endOf('month').unix(),
+    };
 
-  handleDateOptionChange = (e) => {
-    this.setState({ dateFilterOption: e });
-  };
+    handleDateOptionChange = (e) => {
+        if (e === 'custom') {
+            this.setState({
+                dateFilterOption: e,
+                fromDate: null,
+                toDate: null,
+            });
+            return;
+        }
 
-  handleTagChange = (e) => {
-    this.setState({ tag: e === 'select' ? null : e });
-  };
+        let fromDate = '';
+        let toDate = '';
+        if (e === 'one-month') {
+            fromDate = moment().startOf('month').unix();
+            toDate = moment().endOf('month').unix();
+        } else if (e === 'six-months') {
+            fromDate = moment().subtract(5, 'months').startOf('month').unix();
+            toDate = moment().endOf('month').unix();
+        } else if (e === 'today') {
+            fromDate = moment().startOf('day').unix();
+            toDate = moment().startOf('day').unix();
+        } else if (e === 'all-time') {
+            fromDate = null;
+            toDate = null;
+        }
+        this.setState({ fromDate, toDate, dateFilterOption: e });
+    };
 
-  handleTypeChange = (e) => {
-    this.setState({ type: e === 'select' ? null : e });
-  };
+    handleTagChange = (e) => {
+        this.setState({ tagId: e === 'select' ? null : e });
+    };
 
-  render() {
-    const { dateFilterOption, tag, type, minAmount, maxAmount } = this.state;
-    return (
-      <div className='Filters-Container'>
-        <div className='Date-Filter-Options'>
-          <Select
-            showSearch
-            placeholder='Date Range'
-            onChange={this.handleDateOptionChange}
-            style={{ width: '100%' }}
-            value={dateFilterOption}
-          >
-            <Option value='today'>Today</Option>
-            <Option value='one-month'>Past One Month</Option>
-            <Option value='size-month'>Past Six Month</Option>
-            <Option value='all-time'>All time</Option>
-            <Option value='custom'>Custom</Option>
-          </Select>
-        </div>
-        {dateFilterOption === 'custom' && (
-          <div className='Date-Picker'>
-            <div className='Date-Picker-First'>
-              <DatePicker
-                placeholder='Start'
-                onChange={this.handleStartDateChange}
-                style={{ width: '99%' }}
-              />
+    handleFromDateChange = (e) => {
+        const fromDate = e.unix();
+        this.setState({ fromDate });
+    };
+
+    handleToDateChange = (e) => {
+        const toDate = e.unix();
+        this.setState({ toDate });
+    };
+
+    handleFilter = async () => {
+        const query = {};
+        const { tagId, fromDate, toDate, minAmount, maxAmount } = this.state;
+        if (tagId) {
+            query.tagId = tagId;
+        }
+        if (fromDate) {
+            query.fromDate = moment.unix(fromDate).format('MM-DD-YYYY');
+        }
+        if (toDate) {
+            query.toDate = moment.unix(toDate).format('MM-DD-YYYY');
+        }
+        if (minAmount) {
+            query.minAmount = minAmount;
+        }
+        if (maxAmount) {
+            query.maxAmount = maxAmount;
+        }
+
+        const response = await getTransactions(1, 20, query);
+        this.props.dispatch(setTransactions(response.transactions));
+        this.props.dispatch(resetPagination());
+    };
+
+    handleResetFilters = async () => {
+        this.setState({
+            dateFilterOption: 'one-month',
+            tagId: null,
+            minAmount: null,
+            maxAmount: null,
+            fromDate: moment().startOf('month').unix(),
+            toDate: moment().endOf('month').unix(),
+        });
+        const response = await getTransactions(1, 20);
+        this.props.dispatch(setTransactions(response.transactions));
+        this.props.dispatch(resetPagination());
+    };
+
+    render() {
+        const {
+            dateFilterOption,
+            fromDate,
+            toDate,
+            tagId: tag,
+            minAmount,
+            maxAmount,
+        } = this.state;
+        return (
+            <div className='Filters-Container'>
+                <div className='Date-Filter-Options'>
+                    <Select
+                        showSearch
+                        placeholder='Date Range'
+                        onChange={this.handleDateOptionChange}
+                        style={{ width: '100%' }}
+                        value={dateFilterOption}
+                    >
+                        <Option value='today'>Today</Option>
+                        <Option value='one-month'>This Month</Option>
+                        <Option value='six-months'>Past Six Month</Option>
+                        <Option value='all-time'>All time</Option>
+                        <Option value='custom'>Custom</Option>
+                    </Select>
+                </div>
+
+                {dateFilterOption === 'custom' && (
+                    <div className='Date-Picker'>
+                        <div className='Date-Picker-First'>
+                            <DatePicker
+                                placeholder='Start'
+                                onChange={this.handleFromDateChange}
+                                style={{ width: '99%' }}
+                                value={fromDate ? moment.unix(fromDate) : ''}
+                                format='MM-DD-YYYY'
+                            />
+                        </div>
+                        <div className='Date-Picker-Second'>
+                            <DatePicker
+                                placeholder='End'
+                                onChange={this.handleToDateChange}
+                                style={{ width: '99%' }}
+                                value={toDate ? moment.unix(toDate) : ''}
+                                format='MM-DD-YYYY'
+                            />
+                        </div>
+                    </div>
+                )}
+
+                <div className='Tag-Filter'>
+                    <Select
+                        showSearch
+                        placeholder='Tag'
+                        onChange={this.handleTagChange}
+                        style={{ width: '100%' }}
+                        value={tag}
+                    >
+                        <Option value='select'>Select</Option>
+                        {this.props.tags.map((item, index) => (
+                            <Option key={index} value={item.tagId}>
+                                {item.name}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+
+                <div className='Amount-Filter'>
+                    <div className='Amount-First-Value'>
+                        <InputNumber
+                            min={0}
+                            max={Number.MAX_SAFE_INTEGER}
+                            value={minAmount}
+                            placeholder='Min Amount'
+                            onChange={(e) => this.setState({ minAmount: e })}
+                            style={{ width: '99%' }}
+                        />
+                    </div>
+                    <div className='Amount-Second-Value'>
+                        <InputNumber
+                            min={0}
+                            max={Number.MAX_SAFE_INTEGER}
+                            style={{ width: '99%' }}
+                            value={maxAmount}
+                            placeholder='Max Amount'
+                            onChange={(e) => this.setState({ maxAmount: e })}
+                        />
+                    </div>
+                </div>
+
+                <div className='Filter-Button'>
+                    <Button
+                        type='primary'
+                        ghost
+                        onClick={this.handleResetFilters}
+                    >
+                        Reset Filters
+                    </Button>
+                    <Button type='primary' onClick={this.handleFilter}>
+                        Filter
+                    </Button>
+                </div>
             </div>
-            <div className='Date-Picker-Second'>
-              <DatePicker
-                placeholder='End'
-                onChange={this.handleStartDateChange}
-                style={{ width: '99%' }}
-              />
-            </div>
-          </div>
-        )}
-        <div className='Tag-Filter'>
-          <Select
-            showSearch
-            placeholder='Tag'
-            onChange={this.handleTagChange}
-            style={{ width: '100%' }}
-            value={tag}
-          >
-            <Option value='select'>Select</Option>
-            {this.props.tags.map((item, index) => (
-              <Option key={index} value={item.tagId}>
-                {item.name}
-              </Option>
-            ))}
-          </Select>
-        </div>
-        <div className='Type-Filter'>
-          <Select
-            showSearch
-            placeholder='Type'
-            onChange={this.handleTypeChange}
-            style={{ width: '100%' }}
-            value={type}
-          >
-            <Option value='select'>Select</Option>
-            <Option value='credit'>Credit</Option>
-            <Option value='Debit'>Debit</Option>
-          </Select>
-        </div>
-        <div className='Amount-Filter'>
-          <div className='Amount-First-Value'>
-            <InputNumber
-              min={0}
-              max={Number.MAX_SAFE_INTEGER}
-              value={minAmount}
-              placeholder='Min Amount'
-              onChange={(e) => this.setState({ minAmount: e })}
-              style={{ width: '99%' }}
-            />
-          </div>
-          <div className='Amount-Second-Value'>
-            <InputNumber
-              min={0}
-              max={Number.MAX_SAFE_INTEGER}
-              style={{ width: '99%' }}
-              value={maxAmount}
-              placeholder='Max Amount'
-              onChange={(e) => this.setState({ maxAmount: e })}
-            />
-          </div>
-        </div>
-        <div className='Filter-Button'>
-          <Button type='primary'>Filter</Button>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    tags: state.tags,
-  };
+    return {
+        tags: state.tags,
+        pagination: state.pagination,
+    };
 };
 
 export default connect(mapStateToProps)(Filters);

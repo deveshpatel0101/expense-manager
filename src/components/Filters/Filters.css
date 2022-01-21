@@ -1,29 +1,28 @@
 .Filters-Container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
 }
 
 .Tag-Filter,
 .Date-Filter,
-.Type-Filter,
 .Amount-Filter,
 .Date-Filter-Options,
 .Filter-Button,
 .Date-Picker {
-  margin-bottom: 10px;
-  max-width: 500px;
-  width: 95%;
+    margin-bottom: 10px;
+    max-width: 500px;
+    width: 95%;
 }
 
 .Date-Filter,
 .Amount-Filter,
 .Date-Picker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Date-Filter-Options,
@@ -34,5 +33,9 @@
 .Date-Picker-Second,
 .Date-Picker div,
 .Filter-Button > button {
-  width: 100%;
+    width: 100%;
+}
+
+.Filter-Button button {
+    margin-bottom: 10px;
 }

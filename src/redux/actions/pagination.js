@@ -5,3 +5,7 @@ export const updatePagination = ({ page = 1, perPage = 20 } = {}) => ({
         perPage,
     },
 });
+
+export const resetPagination = () => ({
+    type: 'RESET_PAGINATION',
+});
