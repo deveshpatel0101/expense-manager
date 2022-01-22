@@ -16,8 +16,8 @@ class Filters extends React.Component {
         tagId: null,
         minAmount: null,
         maxAmount: null,
-        fromDate: moment().startOf('month').unix(),
-        toDate: moment().endOf('month').unix(),
+        fromDate: moment.utc(moment().startOf('month')).format(),
+        toDate: moment.utc(moment().endOf('month')).format(),
     };
 
     handleDateOptionChange = (e) => {
@@ -33,14 +33,16 @@ class Filters extends React.Component {
         let fromDate = '';
         let toDate = '';
         if (e === 'one-month') {
-            fromDate = moment().startOf('month').unix();
-            toDate = moment().endOf('month').unix();
+            fromDate = moment.utc(moment().startOf('month')).format();
+            toDate = moment.utc(moment().endOf('month')).format();
         } else if (e === 'six-months') {
-            fromDate = moment().subtract(5, 'months').startOf('month').unix();
-            toDate = moment().endOf('month').unix();
+            fromDate = moment
+                .utc(moment().subtract(5, 'months').startOf('month'))
+                .format();
+            toDate = moment.utc(moment().endOf('month')).format();
         } else if (e === 'today') {
-            fromDate = moment().startOf('day').unix();
-            toDate = moment().startOf('day').unix();
+            fromDate = moment.utc(moment().startOf('day')).format();
+            toDate = moment.utc(moment().endOf('day')).format();
         } else if (e === 'all-time') {
             fromDate = null;
             toDate = null;
@@ -53,12 +55,12 @@ class Filters extends React.Component {
     };
 
     handleFromDateChange = (e) => {
-        const fromDate = e.unix();
+        const fromDate = moment.utc(e.startOf('day')).format();
         this.setState({ fromDate });
     };
 
     handleToDateChange = (e) => {
-        const toDate = e.unix();
+        const toDate = moment.utc(e.endOf('day')).format();
         this.setState({ toDate });
     };
 
@@ -69,10 +71,10 @@ class Filters extends React.Component {
             query.tagId = tagId;
         }
         if (fromDate) {
-            query.fromDate = moment.unix(fromDate).format('MM-DD-YYYY');
+            query.fromDate = fromDate;
         }
         if (toDate) {
-            query.toDate = moment.unix(toDate).format('MM-DD-YYYY');
+            query.toDate = toDate;
         }
         if (minAmount) {
             query.minAmount = minAmount;
@@ -92,8 +94,8 @@ class Filters extends React.Component {
             tagId: null,
             minAmount: null,
             maxAmount: null,
-            fromDate: moment().startOf('month').unix(),
-            toDate: moment().endOf('month').unix(),
+            fromDate: moment.utc(moment().startOf('month')).format(),
+            toDate: moment.utc(moment().endOf('month')).format(),
         });
         const response = await getTransactions(1, 20);
         this.props.dispatch(setTransactions(response.transactions));
@@ -134,7 +136,7 @@ class Filters extends React.Component {
                                 placeholder='Start'
                                 onChange={this.handleFromDateChange}
                                 style={{ width: '99%' }}
-                                value={fromDate ? moment.unix(fromDate) : ''}
+                                value={fromDate ? moment.utc(fromDate).local() : ''}
                                 format='MM-DD-YYYY'
                             />
                         </div>
@@ -143,7 +145,7 @@ class Filters extends React.Component {
                                 placeholder='End'
                                 onChange={this.handleToDateChange}
                                 style={{ width: '99%' }}
-                                value={toDate ? moment.unix(toDate) : ''}
+                                value={toDate ? moment.utc(toDate).local() : ''}
                                 format='MM-DD-YYYY'
                             />
                         </div>

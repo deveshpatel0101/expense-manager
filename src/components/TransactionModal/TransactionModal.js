@@ -29,8 +29,7 @@ class TransactionModal extends React.Component {
     };
 
     handleDateChange = (e) => {
-        console.log(e.unix());
-        this.setState({ date: e && e.unix() });
+        this.setState({ date: e && e.utc().format() });
     };
 
     handleTransactionSave = () => {
@@ -41,7 +40,12 @@ class TransactionModal extends React.Component {
             const { amount, date, note, tagId, transactionId } = this.state;
             const data = {
                 transactionId,
-                fields: { amount, date, note, tagId },
+                fields: {
+                    amount,
+                    date: moment.utc(date).format(),
+                    note,
+                    tagId,
+                },
             };
             this.props.updateTransaction(data);
         }
@@ -122,7 +126,7 @@ class TransactionModal extends React.Component {
                 <div className='Modal-Transaction-Date'>
                     <DatePicker
                         onChange={this.handleDateChange}
-                        value={date ? moment.unix(date) : ''}
+                        value={date ? moment.utc(date).local() : ''}
                         format='MM-DD-YYYY'
                     />
                 </div>
