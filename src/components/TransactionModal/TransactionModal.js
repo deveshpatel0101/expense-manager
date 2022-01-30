@@ -9,7 +9,7 @@ class TransactionModal extends React.Component {
     state = {
         amount: this.props.transaction?.amount || null,
         note: this.props.transaction?.note || null,
-        tagId: this.props.transaction?.tag[0].tagId || null,
+        tagId: this.props.transaction?.tag.tagId || null,
         date: this.props.transaction?.date || null,
         transactionId: this.props.transaction?.transactionId || null,
     };
@@ -86,6 +86,7 @@ class TransactionModal extends React.Component {
                 closable={true}
                 maskClosable={true}
                 footer={footer}
+                onCancel={this.props.handleTransactionDiscard}
             >
                 <div className='Modal-Transaction-Amount'>
                     <Input
@@ -108,7 +109,6 @@ class TransactionModal extends React.Component {
 
                 <div className='Modal-Transaction-Tag'>
                     <Select
-                        showSearch
                         style={{ width: '100%' }}
                         placeholder='Tag'
                         onChange={this.handleTagChange}

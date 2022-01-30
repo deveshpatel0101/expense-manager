@@ -1,0 +1,38 @@
+.Tag-Container {
+  width: 100%;
+  margin: 0 auto 15px;
+  max-width: 400px;
+}
+
+.Tag-Container .Tag-Content:hover {
+  cursor: pointer;
+}
+
+.Tag-Container .Tag-Content {
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.Tag-Content.Tag-Credit {
+  background-color: #d7ffd7;
+  border: 1.5px solid #5fff5f;
+  transition: 0.3s;
+}
+
+.Tag-Content.Tag-Credit:hover {
+  background-color: #aaffaa;
+  border: 1.5px solid #5fff5f;
+}
+
+.Tag-Content.Tag-Debit {
+  background-color: #ffd7d7;
+  border: 1.5px solid #ff8e8e;
+  transition: 0.3s;
+}
+
+.Tag-Content.Tag-Debit:hover {
+  background-color: #ffbdbd;
+  border: 1.5px solid #ff8e8e;
+}

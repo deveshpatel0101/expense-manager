@@ -115,7 +115,6 @@ class Filters extends React.Component {
             <div className='Filters-Container'>
                 <div className='Date-Filter-Options'>
                     <Select
-                        showSearch
                         placeholder='Date Range'
                         onChange={this.handleDateOptionChange}
                         style={{ width: '100%' }}
@@ -154,7 +153,6 @@ class Filters extends React.Component {
 
                 <div className='Tag-Filter'>
                     <Select
-                        showSearch
                         placeholder='Tag'
                         onChange={this.handleTagChange}
                         style={{ width: '100%' }}

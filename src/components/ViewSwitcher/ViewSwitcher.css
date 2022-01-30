@@ -1,0 +1,21 @@
+.View-Switcher-Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.View-Switcher-Container .View-Switcher-Header {
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.View-Switcher-Select {
+    width: 95%;
+    max-width: 200px;
+}
+
+.View-Switcher-Select div {
+    width: 100%;
+}

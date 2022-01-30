@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Transaction from '../Transaction/Transaction';
 
 import { getTransactions } from '../../controllers/transactions';
-import { getTags } from '../../controllers/getTags';
+import { getTags } from '../../controllers/tags';
 import { setTransactions } from '../../redux/actions/transactions';
 import { setTags } from '../../redux/actions/tags';
 

@@ -35,7 +35,7 @@ class Transaction extends React.Component {
         return (
             <div
                 className={`Transaction-Container ${
-                    this.props.transaction.tag[0].type === 'debit'
+                    this.props.transaction.tag.type === 'debit'
                         ? 'Transaction-Debit'
                         : 'Transaction-Credit'
                 }`}
@@ -46,7 +46,7 @@ class Transaction extends React.Component {
                 >
                     <div className='Transaction-Tag-Date'>
                         <div className='Transaction-Tag'>
-                            {this.props.transaction.tag[0].name}
+                            {this.props.transaction.tag.name}
                         </div>
                         <div className='Transaction-Date'>
                             {moment(
