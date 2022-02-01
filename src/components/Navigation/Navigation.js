@@ -8,7 +8,7 @@ import { setTransactions } from '../../redux/actions/transactions';
 import { getTransactions } from '../../controllers/transactions';
 
 class Navigation extends React.Component {
-    handlePrev = async (e) => {
+    handlePrev = async () => {
         const { page, perPage } = this.props.pagination;
         if (page === 1) {
             return;
@@ -17,14 +17,18 @@ class Navigation extends React.Component {
         this.props.dispatch(updatePagination({ page: page - 1 }));
     };
 
-    handleNext = async (e) => {
+    handleNext = async () => {
         const { page, perPage } = this.props.pagination;
         await this.loadTransactions(page + 1, perPage);
         this.props.dispatch(updatePagination({ page: page + 1 }));
     };
 
     loadTransactions = async (page, perPage) => {
-        const response = await getTransactions(page, perPage);
+        const response = await getTransactions(
+            page,
+            perPage,
+            this.props.filters
+        );
         this.props.dispatch(setTransactions(response.transactions));
     };
 
@@ -58,6 +62,7 @@ const mapStateToProps = (state) => {
         transactions: state.transactions,
         tags: state.tags,
         pagination: state.pagination,
+        filters: state.filters,
     };
 };
 

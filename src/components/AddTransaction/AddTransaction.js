@@ -26,14 +26,10 @@ class AddTransaction extends React.Component {
         await this.refreshTransactions();
     };
 
-    getTransactions = async (page, perPage) => {
-        let response = await getTransactions(page, perPage);
-        this.props.dispatch(setTransactions(response.transactions));
-    };
-
     refreshTransactions = async () => {
         const { page, perPage } = this.props.pagination;
-        await this.getTransactions(page, perPage);
+        let response = await getTransactions(page, perPage, this.props.filters);
+        this.props.dispatch(setTransactions(response.transactions));
         this.setState({ showModal: false });
     };
 
@@ -66,6 +62,7 @@ const mapStateToProps = (state) => {
     return {
         pagination: state.pagination,
         tags: state.tags,
+        filters: state.filters,
     };
 };
 

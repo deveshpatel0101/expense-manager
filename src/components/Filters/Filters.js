@@ -7,11 +7,13 @@ import moment from 'moment';
 import { getTransactions } from '../../controllers/transactions';
 import { setTransactions } from '../../redux/actions/transactions';
 import { resetPagination } from '../../redux/actions/pagination';
+import { updateFilters } from '../../redux/actions/filters';
+import { paginationDefaultState } from '../../redux/reducers/pagination';
 
 const { Option } = Select;
 
-class Filters extends React.Component {
-    state = {
+const getDefaultFilters = () => {
+    return {
         dateFilterOption: 'one-month',
         tagId: null,
         minAmount: null,
@@ -19,6 +21,10 @@ class Filters extends React.Component {
         fromDate: moment.utc(moment().startOf('month')).format(),
         toDate: moment.utc(moment().endOf('month')).format(),
     };
+};
+
+class Filters extends React.Component {
+    state = getDefaultFilters();
 
     handleDateOptionChange = (e) => {
         if (e === 'custom') {
@@ -65,39 +71,26 @@ class Filters extends React.Component {
     };
 
     handleFilter = async () => {
-        const query = {};
         const { tagId, fromDate, toDate, minAmount, maxAmount } = this.state;
-        if (tagId) {
-            query.tagId = tagId;
-        }
-        if (fromDate) {
-            query.fromDate = fromDate;
-        }
-        if (toDate) {
-            query.toDate = toDate;
-        }
-        if (minAmount) {
-            query.minAmount = minAmount;
-        }
-        if (maxAmount) {
-            query.maxAmount = maxAmount;
-        }
+        const query = { tagId, fromDate, toDate, minAmount, maxAmount };
 
-        const response = await getTransactions(1, 20, query);
+        const { page, perPage } = paginationDefaultState;
+        const response = await getTransactions(page, perPage, query);
+
+        this.props.dispatch(updateFilters(query));
         this.props.dispatch(setTransactions(response.transactions));
         this.props.dispatch(resetPagination());
     };
 
     handleResetFilters = async () => {
-        this.setState({
-            dateFilterOption: 'one-month',
-            tagId: null,
-            minAmount: null,
-            maxAmount: null,
-            fromDate: moment.utc(moment().startOf('month')).format(),
-            toDate: moment.utc(moment().endOf('month')).format(),
-        });
-        const response = await getTransactions(1, 20);
+        const defaultFilters = getDefaultFilters();
+        this.setState(defaultFilters);
+
+        delete defaultFilters['dateFilterOption'];
+        const { page, perPage } = paginationDefaultState;
+        const response = await getTransactions(page, perPage, defaultFilters);
+
+        this.props.dispatch(updateFilters({ ...defaultFilters }));
         this.props.dispatch(setTransactions(response.transactions));
         this.props.dispatch(resetPagination());
     };
@@ -107,7 +100,7 @@ class Filters extends React.Component {
             dateFilterOption,
             fromDate,
             toDate,
-            tagId: tag,
+            tagId,
             minAmount,
             maxAmount,
         } = this.state;
@@ -135,7 +128,9 @@ class Filters extends React.Component {
                                 placeholder='Start'
                                 onChange={this.handleFromDateChange}
                                 style={{ width: '99%' }}
-                                value={fromDate ? moment.utc(fromDate).local() : ''}
+                                value={
+                                    fromDate ? moment.utc(fromDate).local() : ''
+                                }
                                 format='MM-DD-YYYY'
                             />
                         </div>
@@ -156,7 +151,7 @@ class Filters extends React.Component {
                         placeholder='Tag'
                         onChange={this.handleTagChange}
                         style={{ width: '100%' }}
-                        value={tag}
+                        value={tagId}
                     >
                         <Option value='select'>Select</Option>
                         {this.props.tags.map((item, index) => (
@@ -176,7 +171,8 @@ class Filters extends React.Component {
                             placeholder='Min Amount'
                             onChange={(e) => this.setState({ minAmount: e })}
                             style={{ width: '99%' }}
-                        />
+                            type={'number'}
+                            />
                     </div>
                     <div className='Amount-Second-Value'>
                         <InputNumber
@@ -186,6 +182,7 @@ class Filters extends React.Component {
                             value={maxAmount}
                             placeholder='Max Amount'
                             onChange={(e) => this.setState({ maxAmount: e })}
+                            type={'number'}
                         />
                     </div>
                 </div>

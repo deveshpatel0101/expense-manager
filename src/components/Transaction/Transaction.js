@@ -49,9 +49,9 @@ class Transaction extends React.Component {
                             {this.props.transaction.tag.name}
                         </div>
                         <div className='Transaction-Date'>
-                            {moment(
-                                this.props.transaction.date,
-                            ).local().format('Do MMM YYYY')}
+                            {moment(this.props.transaction.date)
+                                .local()
+                                .format('Do MMM YYYY')}
                         </div>
                     </div>
                     <div className='Transaction-Note-Amount'>
@@ -59,7 +59,8 @@ class Transaction extends React.Component {
                             {this.props.transaction.note}
                         </div>
                         <div className='Transaction-Amount'>
-                            ${this.props.transaction.amount}
+                            {this.props.transaction.tag.type === 'debit' && '-'}$
+                            {this.props.transaction.amount}
                         </div>
                     </div>
                 </div>

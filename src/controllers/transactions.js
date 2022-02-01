@@ -4,7 +4,9 @@ const URL = 'https://dp-expense-manager-api.herokuapp.com';
 export const getTransactions = async (page = 1, perPage = 10, filters = {}) => {
     let filteredURL = `${URL}/transactions?page=${page}&perPage=${perPage}`;
     for (let prop in filters) {
-        filteredURL += `&${prop}=${filters[prop]}`;
+        if (filters[prop] !== null && filters[prop] !== undefined) {
+            filteredURL += `&${prop}=${filters[prop]}`;
+        }
     }
 
     const response = await fetch(filteredURL, {

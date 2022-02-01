@@ -11,24 +11,19 @@ import { setTags } from '../../redux/actions/tags';
 
 class Transactions extends React.Component {
     async componentDidMount() {
-        const { page, perPage } = this.props.pagination;
-        await this.getTransactions(page, perPage);
+        await this.getTransactions();
         await this.getTags();
     }
 
-    getTransactions = async (page, perPage) => {
-        let response = await getTransactions(page, perPage);
+    getTransactions = async () => {
+        const { page, perPage } = this.props.pagination;
+        let response = await getTransactions(page, perPage, this.props.filters);
         this.props.dispatch(setTransactions(response.transactions));
     };
 
     getTags = async () => {
         const response = await getTags();
         this.props.dispatch(setTags(response.tags));
-    };
-
-    refreshTransactions = async () => {
-        const { page, perPage } = this.props.pagination;
-        await this.getTransactions(page, perPage);
     };
 
     render() {
@@ -40,7 +35,7 @@ class Transactions extends React.Component {
                             key={transaction.transactionId}
                             tags={this.props.tags}
                             transaction={transaction}
-                            refreshTransactions={this.refreshTransactions}
+                            refreshTransactions={this.getTransactions}
                         />
                     );
                 })}
@@ -54,6 +49,7 @@ const mapStateToProps = (state) => {
         pagination: state.pagination,
         transactions: state.transactions,
         tags: state.tags,
+        filters: state.filters,
     };
 };
 
