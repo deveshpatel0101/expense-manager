@@ -34,9 +34,6 @@ class TagModal extends React.Component {
         let isDisabled =
             name?.length <= 0 || (type !== 'credit' && type !== 'debit');
         let footer = [
-            <Button key='discard' onClick={this.props.handleTagDiscard}>
-                Discard
-            </Button>,
             <Button
                 key='save'
                 type='primary'

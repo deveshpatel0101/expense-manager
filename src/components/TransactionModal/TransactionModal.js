@@ -10,7 +10,7 @@ class TransactionModal extends React.Component {
         amount: this.props.transaction?.amount || null,
         note: this.props.transaction?.note || null,
         tagId: this.props.transaction?.tag.tagId || null,
-        date: this.props.transaction?.date || null,
+        date: this.props.transaction?.date || moment.utc().format(),
         transactionId: this.props.transaction?.transactionId || null,
     };
 
@@ -55,9 +55,6 @@ class TransactionModal extends React.Component {
         const { amount, note, tagId, date } = this.state;
         let isDisabled = amount < 0 || note?.length <= 0 || !tagId || !date;
         let footer = [
-            <Button key='discard' onClick={this.props.handleTransactionDiscard}>
-                Discard
-            </Button>,
             <Button
                 key='save'
                 type='primary'
