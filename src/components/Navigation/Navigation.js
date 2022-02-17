@@ -34,7 +34,7 @@ class Navigation extends React.Component {
 
     render() {
         return (
-            <div className='Nav-Buttons'>
+            <div className='Navigation-Container'>
                 <Button
                     type='primary'
                     disabled={this.props.pagination.page === 1}

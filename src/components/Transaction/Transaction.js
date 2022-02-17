@@ -60,7 +60,7 @@ class Transaction extends React.Component {
                         </div>
                         <div className='Transaction-Amount'>
                             {this.props.transaction.tag.type === 'debit' && '-'}$
-                            {this.props.transaction.amount}
+                            {this.props.transaction.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </div>
                     </div>
                 </div>
