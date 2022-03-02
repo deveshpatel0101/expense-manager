@@ -1,4 +1,4 @@
-export const paginationDefaultState = { page: 1, perPage: 20 };
+export const paginationDefaultState = { page: 1, perPage: 10 };
 
 const paginationReducer = (state = paginationDefaultState, action) => {
     switch (action.type) {

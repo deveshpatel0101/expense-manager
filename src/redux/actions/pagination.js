@@ -1,4 +1,4 @@
-export const updatePagination = ({ page = 1, perPage = 20 } = {}) => ({
+export const updatePagination = ({ page = 1, perPage = 10 } = {}) => ({
     type: 'UPDATE_PAGINATION',
     pagination: {
         page,

@@ -14,11 +14,13 @@ const { Option } = Select;
 
 const getDefaultFilters = () => {
     return {
-        dateFilterOption: 'one-month',
+        dateFilterOption: 'six-months',
         tagId: null,
         minAmount: null,
         maxAmount: null,
-        fromDate: moment.utc(moment().startOf('month')).format(),
+        fromDate: moment
+				.utc(moment().subtract(5, 'months').startOf('month'))
+				.format(),
         toDate: moment.utc(moment().endOf('month')).format(),
     };
 };
