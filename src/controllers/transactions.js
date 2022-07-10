@@ -1,10 +1,25 @@
 import { validateResponse } from '../utils/validateResponse';
 
 const URL = 'https://dp-expense-manager-api.herokuapp.com';
+const filtersToSend = {
+    fromDate: true,
+    toDate: true,
+    minAmount: true,
+    maxAmount: true,
+    text: true,
+    page: true,
+    perPage: true,
+    tagId: true,
+};
+
 export const getTransactions = async (page = 1, perPage = 10, filters = {}) => {
     let filteredURL = `${URL}/transactions?page=${page}&perPage=${perPage}`;
     for (let prop in filters) {
-        if (filters[prop] !== null && filters[prop] !== undefined) {
+        if (
+            prop in filtersToSend &&
+            filters[prop] !== null &&
+            filters[prop] !== undefined
+        ) {
             filteredURL += `&${prop}=${filters[prop]}`;
         }
     }

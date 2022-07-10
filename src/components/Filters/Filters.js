@@ -1,7 +1,7 @@
 import React from 'react';
 import './Filters.css';
 import { connect } from 'react-redux';
-import { DatePicker, Select, InputNumber, Button } from 'antd';
+import { DatePicker, Select, InputNumber, Button, Input } from 'antd';
 import moment from 'moment';
 
 import { getTransactions } from '../../controllers/transactions';
@@ -18,15 +18,16 @@ const getDefaultFilters = () => {
         tagId: null,
         minAmount: null,
         maxAmount: null,
+        text: null,
         fromDate: moment
-				.utc(moment().subtract(5, 'months').startOf('month'))
-				.format(),
+            .utc(moment().subtract(5, 'months').startOf('month'))
+            .format(),
         toDate: moment.utc(moment().endOf('month')).format(),
     };
 };
 
 class Filters extends React.Component {
-    state = getDefaultFilters();
+    state = this.props.filters;
 
     handleDateOptionChange = (e) => {
         if (e === 'custom') {
@@ -72,14 +73,21 @@ class Filters extends React.Component {
         this.setState({ toDate });
     };
 
+    handleTextChange = (e) => {
+        let text = e.target.value;
+        text = text || null;
+        this.setState({ text });
+    };
+
     handleFilter = async () => {
-        const { tagId, fromDate, toDate, minAmount, maxAmount } = this.state;
-        const query = { tagId, fromDate, toDate, minAmount, maxAmount };
+        const { tagId, fromDate, toDate, minAmount, maxAmount, text } =
+            this.state;
+        const query = { tagId, fromDate, toDate, minAmount, maxAmount, text };
 
         const { page, perPage } = paginationDefaultState;
         const response = await getTransactions(page, perPage, query);
 
-        this.props.dispatch(updateFilters(query));
+        this.props.dispatch(updateFilters({ ...this.state }));
         this.props.dispatch(setTransactions(response.transactions));
         this.props.dispatch(resetPagination());
     };
@@ -88,7 +96,6 @@ class Filters extends React.Component {
         const defaultFilters = getDefaultFilters();
         this.setState(defaultFilters);
 
-        delete defaultFilters['dateFilterOption'];
         const { page, perPage } = paginationDefaultState;
         const response = await getTransactions(page, perPage, defaultFilters);
 
@@ -105,6 +112,7 @@ class Filters extends React.Component {
             tagId,
             minAmount,
             maxAmount,
+            text,
         } = this.state;
         return (
             <div className='Filters-Container'>
@@ -174,7 +182,7 @@ class Filters extends React.Component {
                             onChange={(e) => this.setState({ minAmount: e })}
                             style={{ width: '99%' }}
                             type={'number'}
-                            />
+                        />
                     </div>
                     <div className='Amount-Second-Value'>
                         <InputNumber
@@ -187,6 +195,14 @@ class Filters extends React.Component {
                             type={'number'}
                         />
                     </div>
+                </div>
+
+                <div className='Text-Filter'>
+                    <Input
+                        placeholder='Text'
+                        onChange={this.handleTextChange}
+                        value={text}
+                    />
                 </div>
 
                 <div className='Filter-Button'>
@@ -210,6 +226,7 @@ const mapStateToProps = (state) => {
     return {
         tags: state.tags,
         pagination: state.pagination,
+        filters: state.filters,
     };
 };
 
