@@ -1,0 +1,27 @@
+.Analysis-By-Month-Container {
+    margin-top: 30px;
+}
+
+.Analysis-By-Month-Date-Picker {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.Analysis-By-Month-Values {
+    text-align: center;
+}
+
+.Analysis-By-Month-Graph {
+    margin-bottom: 15px;
+}
+
+.Analysis-By-Month-Container .Analysis-By-Month-Nav-Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Analysis-By-Month-Container .Analysis-By-Month-Nav-Buttons button {
+    width: 48%;
+}

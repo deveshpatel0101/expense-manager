@@ -17,6 +17,7 @@ class ViewSwitcher extends React.Component {
                     >
                         <Option value='transactions'>Transactions</Option>
                         <Option value='tags'>Tags</Option>
+                        <Option value='analysis'>Analysis</Option>
                     </Select>
                 </div>
             </div>

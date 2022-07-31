@@ -8,6 +8,7 @@ import AddTransaction from '../AddTransaction/AddTransaction';
 import ViewSwitcher from '../ViewSwitcher/ViewSwitcher';
 import Tags from '../Tags/Tags';
 import AddTag from '../AddTag/AddTag';
+import Analysis from '../Analysis/Analysis';
 
 class ExpenseManager extends React.Component {
     state = {
@@ -37,6 +38,11 @@ class ExpenseManager extends React.Component {
                     <React.Fragment>
                         <Tags />
                         <AddTag />
+                    </React.Fragment>
+                )}
+                {this.state.view === 'analysis' && (
+                    <React.Fragment>
+                        <Analysis />
                     </React.Fragment>
                 )}
             </div>
