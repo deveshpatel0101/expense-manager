@@ -7,7 +7,7 @@ export const getTags = async (page = 1, perPage = 100) => {
         `${URL}/tags?page=${page}&perPage=${perPage}`,
         {
             headers: {
-                Authorization: localStorage.getItem('token'),
+                Authorization: sessionStorage.getItem('token'),
             },
         }
     );
@@ -21,7 +21,7 @@ export const addTag = async (data) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('token'),
+            Authorization: sessionStorage.getItem('token'),
         },
     });
     validateResponse(response);
@@ -34,7 +34,7 @@ export const updateTag = async (data) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('token'),
+            Authorization: sessionStorage.getItem('token'),
         },
     });
     validateResponse(response);
@@ -47,7 +47,7 @@ export const deleteTag = async (data) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('token'),
+            Authorization: sessionStorage.getItem('token'),
         },
     });
     validateResponse(response);

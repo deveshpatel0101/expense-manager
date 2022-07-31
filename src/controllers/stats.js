@@ -9,7 +9,7 @@ export const getStatsByMonth = async (query) => {
         `${URL}/transactions/stats?${urlQueries.join('&')}`,
         {
             headers: {
-                Authorization: localStorage.getItem('token'),
+                Authorization: sessionStorage.getItem('token'),
             },
         }
     );

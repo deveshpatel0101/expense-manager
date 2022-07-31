@@ -3,6 +3,6 @@ export const validateResponse = (res) => {
         return;
     }
     var token = prompt('You are unauthorized. Please enter your password');
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
     window.location.reload();
 };

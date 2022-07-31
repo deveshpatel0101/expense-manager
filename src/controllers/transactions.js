@@ -26,7 +26,7 @@ export const getTransactions = async (page = 1, perPage = 10, filters = {}) => {
 
     const response = await fetch(filteredURL, {
         headers: {
-            Authorization: localStorage.getItem('token'),
+            Authorization: sessionStorage.getItem('token'),
         },
     });
     validateResponse(response);
@@ -39,7 +39,7 @@ export const addTransaction = async (data) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('token'),
+            Authorization: sessionStorage.getItem('token'),
         },
     });
     validateResponse(response);
@@ -52,7 +52,7 @@ export const updateTransaction = async (data) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('token'),
+            Authorization: sessionStorage.getItem('token'),
         },
     });
     validateResponse(response);
@@ -65,7 +65,7 @@ export const deleteTransaction = async (data) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('token'),
+            Authorization: sessionStorage.getItem('token'),
         },
     });
     validateResponse(response);
