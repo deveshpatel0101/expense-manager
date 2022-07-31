@@ -45,8 +45,8 @@ class ByMonth extends React.Component {
         });
 
         if (!res.error) {
-            const income = res[date + '-01'].income;
-            const expense = res[date + '-01'].expense;
+            const income = res[0].income;
+            const expense = res[0].expense;
             this.setState({
                 income,
                 expense,
