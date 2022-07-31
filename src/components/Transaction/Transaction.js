@@ -24,6 +24,13 @@ class Transaction extends React.Component {
     };
 
     deleteTransaction = async () => {
+        // eslint-disable-next-line no-restricted-globals
+        const isConfirmed = confirm(
+            "Are you sure you want to delete this transaction? Action can't be undone!"
+        );
+        if (!isConfirmed) {
+            return;
+        }
         await deleteTransaction({
             transactionId: this.props.transaction.transactionId,
         });

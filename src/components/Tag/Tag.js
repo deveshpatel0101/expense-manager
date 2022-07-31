@@ -20,6 +20,13 @@ class Tag extends React.Component {
     };
 
     deleteTag = async () => {
+        // eslint-disable-next-line no-restricted-globals
+        const isConfirmed = confirm(
+            "Action can't be undone! Are you sure you want to delete this tag? If there are transactions associated with it, action can't be performed."
+        );
+        if (!isConfirmed) {
+            return;
+        }
         await deleteTag({
             tagId: this.props.tag.tagId,
         });
