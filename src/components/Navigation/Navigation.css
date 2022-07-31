@@ -1,13 +1,22 @@
 .Navigation-Container {
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
-	width: 100%;
-	max-width: 500px;
-	margin: 0 auto;
-	padding-bottom: 50px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding-bottom: 50px;
 }
 
-.Navigation-Container button {
-	width: 48%;
+.Navigation-Container .Navigation-Select-Per-Page {
+	display: block;
+	width: 40%;
+	margin: 10px auto 20px;
+}
+
+.Navigation-Container .Navigation-Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Navigation-Container .Navigation-Buttons button {
+    width: 48%;
 }

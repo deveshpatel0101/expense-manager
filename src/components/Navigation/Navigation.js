@@ -1,11 +1,13 @@
 import React from 'react';
 import './Navigation.css';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
+import { Button, Select } from 'antd';
 
-import { updatePagination } from '../../redux/actions/pagination';
+import { updatePage, updatePerPage } from '../../redux/actions/pagination';
 import { setTransactions } from '../../redux/actions/transactions';
 import { getTransactions } from '../../controllers/transactions';
+
+const { Option } = Select;
 
 class Navigation extends React.Component {
     handlePrev = async () => {
@@ -14,13 +16,13 @@ class Navigation extends React.Component {
             return;
         }
         await this.loadTransactions(page - 1, perPage);
-        this.props.dispatch(updatePagination({ page: page - 1 }));
+        this.props.dispatch(updatePage({ page: page - 1 }));
     };
 
     handleNext = async () => {
         const { page, perPage } = this.props.pagination;
         await this.loadTransactions(page + 1, perPage);
-        this.props.dispatch(updatePagination({ page: page + 1 }));
+        this.props.dispatch(updatePage({ page: page + 1 }));
     };
 
     loadTransactions = async (page, perPage) => {
@@ -32,26 +34,49 @@ class Navigation extends React.Component {
         this.props.dispatch(setTransactions(response.transactions));
     };
 
+    handlePerPageChange = async (e) => {
+        const temp = e;
+        this.props.dispatch(updatePerPage({ perPage: temp }));
+        this.props.dispatch(updatePage({ page: 1 }));
+        await this.loadTransactions(1, temp);
+    };
+
     render() {
         return (
             <div className='Navigation-Container'>
-                <Button
-                    type='primary'
-                    disabled={this.props.pagination.page === 1}
-                    onClick={this.handlePrev}
-                >
-                    Previous
-                </Button>
-                <Button
-                    type='primary'
-                    onClick={this.handleNext}
-                    disabled={
-                        this.props.transactions.length <
-                        this.props.pagination.perPage
-                    }
-                >
-                    Next
-                </Button>
+                <div >
+                    <Select
+                        onChange={this.handlePerPageChange}
+                        value={this.props.pagination.perPage}
+                        className='Navigation-Select-Per-Page'
+                    >
+                        <Option value='10'>10</Option>
+                        <Option value='20'>20</Option>
+                        <Option value='40'>40</Option>
+                        <Option value='60'>60</Option>
+                        <Option value='80'>80</Option>
+                        <Option value='100'>100</Option>
+                    </Select>
+                </div>
+                <div className='Navigation-Buttons'>
+                    <Button
+                        type='primary'
+                        disabled={this.props.pagination.page === 1}
+                        onClick={this.handlePrev}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        type='primary'
+                        onClick={this.handleNext}
+                        disabled={
+                            this.props.transactions.length <
+                            Number(this.props.pagination.perPage)
+                        }
+                    >
+                        Next
+                    </Button>
+                </div>
             </div>
         );
     }

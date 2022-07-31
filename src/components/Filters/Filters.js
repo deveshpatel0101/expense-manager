@@ -6,9 +6,8 @@ import moment from 'moment';
 
 import { getTransactions } from '../../controllers/transactions';
 import { setTransactions } from '../../redux/actions/transactions';
-import { resetPagination } from '../../redux/actions/pagination';
+import { updatePage } from '../../redux/actions/pagination';
 import { updateFilters } from '../../redux/actions/filters';
-import { paginationDefaultState } from '../../redux/reducers/pagination';
 
 const { Option } = Select;
 
@@ -84,24 +83,24 @@ class Filters extends React.Component {
             this.state;
         const query = { tagId, fromDate, toDate, minAmount, maxAmount, text };
 
-        const { page, perPage } = paginationDefaultState;
-        const response = await getTransactions(page, perPage, query);
+        const perPage = this.props.pagination.perPage;
+        const response = await getTransactions(1, perPage, query);
 
         this.props.dispatch(updateFilters({ ...this.state }));
         this.props.dispatch(setTransactions(response.transactions));
-        this.props.dispatch(resetPagination());
+        this.props.dispatch(updatePage({ page: 1 }));
     };
 
     handleResetFilters = async () => {
         const defaultFilters = getDefaultFilters();
         this.setState(defaultFilters);
 
-        const { page, perPage } = paginationDefaultState;
-        const response = await getTransactions(page, perPage, defaultFilters);
+        const perPage = this.props.pagination.perPage;
+        const response = await getTransactions(1, perPage, defaultFilters);
 
         this.props.dispatch(updateFilters({ ...defaultFilters }));
         this.props.dispatch(setTransactions(response.transactions));
-        this.props.dispatch(resetPagination());
+        this.props.dispatch(updatePage({ page: 1 }));
     };
 
     render() {

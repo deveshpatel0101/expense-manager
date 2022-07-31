@@ -59,8 +59,11 @@ class Transaction extends React.Component {
                             {this.props.transaction.note}
                         </div>
                         <div className='Transaction-Amount'>
-                            {this.props.transaction.tag.type === 'debit' && '-'}$
-                            {this.props.transaction.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            {this.props.transaction.tag.type === 'debit' && '-'}
+                            $
+                            {this.props.transaction.amount
+                                .toString()
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </div>
                     </div>
                 </div>
