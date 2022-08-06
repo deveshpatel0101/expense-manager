@@ -12,7 +12,7 @@ import Analysis from '../Analysis/Analysis';
 
 class ExpenseManager extends React.Component {
     state = {
-        view: 'transactions',
+        view: 'analysis',
     };
 
     handleChange = (e) => {

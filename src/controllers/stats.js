@@ -1,6 +1,6 @@
 const URL = 'https://dp-expense-manager-api.herokuapp.com';
 
-export const getStatsByMonth = async (query) => {
+export const getStats = async (query) => {
     const urlQueries = [];
     for (let prop in query) {
         urlQueries.push(`${prop}=${query[prop]}`);

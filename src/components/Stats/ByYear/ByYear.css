@@ -1,0 +1,29 @@
+.Analysis-By-Year-Container {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.Analysis-By-Year-Date-Picker {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.Analysis-By-Year-Values {
+    text-align: center;
+}
+
+.Analysis-By-Year-Graph {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.Analysis-By-Year-Container .Analysis-By-Year-Nav-Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Analysis-By-Year-Container .Analysis-By-Year-Nav-Buttons button {
+    width: 48%;
+}

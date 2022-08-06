@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import './ByMonth.css';
 
-import { getStatsByMonth } from '../../../controllers/stats';
+import { getStats } from '../../../controllers/stats';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -39,14 +39,14 @@ class ByMonth extends React.Component {
     }
 
     fetchData = async (date) => {
-        const res = await getStatsByMonth({
+        const res = await getStats({
             type: 'month',
             date,
         });
 
         if (!res.error) {
-            const income = res[0].income;
-            const expense = res[0].expense;
+            const income = res.data[0].income;
+            const expense = res.data[0].expense;
             this.setState({
                 income,
                 expense,
