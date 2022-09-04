@@ -1,4 +1,4 @@
-const URL = 'https://dp-expense-manager-api.herokuapp.com';
+const URL = 'https://expense-manager-api.cyclic.app';
 
 export const getStats = async (query) => {
     const urlQueries = [];

@@ -1,6 +1,6 @@
 import { validateResponse } from '../utils/validateResponse';
 
-const URL = 'https://dp-expense-manager-api.herokuapp.com';
+const URL = 'https://expense-manager-api.cyclic.app';
 const filtersToSend = {
     fromDate: true,
     toDate: true,

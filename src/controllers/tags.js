@@ -1,6 +1,6 @@
 import { validateResponse } from '../utils/validateResponse';
 
-const URL = 'https://dp-expense-manager-api.herokuapp.com';
+const URL = 'https://expense-manager-api.cyclic.app';
 
 export const getTags = async (page = 1, perPage = 100) => {
     const response = await fetch(
