@@ -31,11 +31,15 @@ class Transaction extends React.Component {
         if (!isConfirmed) {
             return;
         }
-        await deleteTransaction({
+        const response = await deleteTransaction({
             transactionId: this.props.transaction.transactionId,
         });
-        this.props.refreshTransactions();
-        this.setState({ showModal: false });
+        if (!response.error) {
+            this.props.refreshTransactions();
+            this.setState({ showModal: false });
+        } else {
+            alert(response.errorMessage);
+        }
     };
 
     render() {
@@ -80,7 +84,7 @@ class Transaction extends React.Component {
                         tags={this.props.tags}
                         updateTransaction={this.updateTransaction}
                         deleteTransaction={this.deleteTransaction}
-                        handleTransactionDiscard={() => this.handleModal(false)}
+                        transactionDiscard={() => this.handleModal(false)}
                         isNew={false}
                     />
                 )}

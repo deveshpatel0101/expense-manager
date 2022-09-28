@@ -8,6 +8,8 @@ class TagModal extends React.Component {
     state = {
         name: this.props.tag?.name || '',
         type: this.props.tag?.type || 'select',
+        saveLoading: false,
+        deleteLoading: false,
     };
 
     handleNameChange = (e) => {
@@ -18,19 +20,47 @@ class TagModal extends React.Component {
         this.setState({ type: e });
     };
 
-    handleTagSave = () => {
+    handleTagSave = async () => {
+        this.setState({ saveLoading: true });
+        const { name, type } = this.state;
         if (this.props.isNew) {
-            this.props.addTag({ ...this.state });
+            await this.props.addTag({ name, type });
         } else {
-            this.props.updateTag({
+            await this.props.updateTag({
                 tagId: this.props.tag.tagId,
-                fields: { ...this.state },
+                fields: { name, type },
             });
+        }
+        if (this._isMounted) {
+            this.setState({ saveLoading: false });
         }
     };
 
+    handleDeleteTag = async () => {
+        this.setState({ deleteLoading: true });
+        await this.props.deleteTag();
+        if (this._isMounted) {
+            this.setState({ deleteLoading: false });
+        }
+    };
+
+    handleTagDiscard = () => {
+        const { saveLoading, deleteLoading } = this.state;
+        if (!saveLoading && !deleteLoading) {
+            this.props.tagDiscard();
+        }
+    };
+
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
-        const { name, type } = this.state;
+        const { name, type, saveLoading, deleteLoading } = this.state;
         let isDisabled =
             name?.length <= 0 || (type !== 'credit' && type !== 'debit');
         let footer = [
@@ -38,14 +68,21 @@ class TagModal extends React.Component {
                 key='save'
                 type='primary'
                 onClick={this.handleTagSave}
-                disabled={isDisabled}
+                disabled={isDisabled || saveLoading || deleteLoading}
+                loading={saveLoading}
             >
                 Save
             </Button>,
         ];
         if (!this.props.isNew) {
             footer.unshift(
-                <Button key='delete' onClick={this.props.deleteTag} danger>
+                <Button
+                    key='delete'
+                    onClick={this.handleDeleteTag}
+                    danger
+                    disabled={saveLoading || deleteLoading}
+                    loading={deleteLoading}
+                >
                     Delete
                 </Button>
             );
@@ -56,10 +93,10 @@ class TagModal extends React.Component {
                 title='Tag'
                 visible={true}
                 className='Tag-Modal-Container'
-                closable={true}
-                maskClosable={true}
+                closable={!saveLoading && !deleteLoading}
+                maskClosable={!saveLoading && !deleteLoading}
                 footer={footer}
-                onCancel={this.props.handleTagDiscard}
+                onCancel={this.handleTagDiscard}
             >
                 <div className='Tag-Modal-Name'>
                     <Input

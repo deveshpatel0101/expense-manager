@@ -22,8 +22,12 @@ class AddTransaction extends React.Component {
     };
 
     addTransaction = async (data) => {
-        await addTransaction(data);
-        await this.refreshTransactions();
+        const response = await addTransaction(data);
+        if (!response.error) {
+            await this.refreshTransactions();
+        } else {
+            alert(response.errorMessage);
+        }
     };
 
     refreshTransactions = async () => {
@@ -50,7 +54,7 @@ class AddTransaction extends React.Component {
                         tags={this.props.tags}
                         isNew={true}
                         addTransaction={this.addTransaction}
-                        handleTransactionDiscard={() => this.handleModal(false)}
+                        transactionDiscard={() => this.handleModal(false)}
                     />
                 )}
             </div>

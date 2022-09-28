@@ -27,11 +27,15 @@ class Tag extends React.Component {
         if (!isConfirmed) {
             return;
         }
-        await deleteTag({
+        const response = await deleteTag({
             tagId: this.props.tag.tagId,
         });
-        this.props.refreshTags();
-        this.setState({ showModal: false });
+        if (!response.error) {
+            this.props.refreshTags();
+            this.setState({ showModal: false });
+        } else {
+            alert(response.errorMessage);
+        }
     };
 
     render() {
@@ -54,7 +58,7 @@ class Tag extends React.Component {
                         tag={this.props.tag}
                         updateTag={this.updateTag}
                         deleteTag={this.deleteTag}
-                        handleTagDiscard={() => this.handleModal(false)}
+                        tagDiscard={() => this.handleModal(false)}
                         isNew={false}
                     />
                 )}

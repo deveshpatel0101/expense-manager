@@ -12,6 +12,8 @@ class TransactionModal extends React.Component {
         tagId: this.props.transaction?.tag.tagId || null,
         date: this.props.transaction?.date || moment.utc().format(),
         transactionId: this.props.transaction?.transactionId || null,
+        saveLoading: false,
+        deleteLoading: false,
     };
 
     handleAmountChange = (e) => {
@@ -32,10 +34,13 @@ class TransactionModal extends React.Component {
         this.setState({ date: e && e.utc().format() });
     };
 
-    handleTransactionSave = () => {
+    handleTransactionSave = async () => {
+        this.setState({ saveLoading: true });
         if (this.props.isNew) {
             const data = { ...this.state };
-            this.props.addTransaction(data);
+            delete data.saveLoading;
+            delete data.deleteLoading;
+            await this.props.addTransaction(data);
         } else {
             const { amount, date, note, tagId, transactionId } = this.state;
             const data = {
@@ -47,19 +52,47 @@ class TransactionModal extends React.Component {
                     tagId,
                 },
             };
-            this.props.updateTransaction(data);
+            await this.props.updateTransaction(data);
+        }
+        if (this._isMounted) {
+            this.setState({ saveLoading: false });
         }
     };
 
+    handleDeleteTransaction = async () => {
+        this.setState({ deleteLoading: true });
+        await this.props.deleteTransaction();
+        if(this._isMounted) {
+            this.setState({deleteLoading: false})
+        }
+    };
+
+    handleTransactionDiscard = () => {
+        const { saveLoading, deleteLoading } = this.state;
+        if (!saveLoading && !deleteLoading) {
+            this.props.transactionDiscard();
+        }
+    };
+
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
-        const { amount, note, tagId, date } = this.state;
+        const { amount, note, tagId, date, saveLoading, deleteLoading } =
+            this.state;
         let isDisabled = amount < 0 || note?.length <= 0 || !tagId || !date;
         let footer = [
             <Button
                 key='save'
                 type='primary'
                 onClick={this.handleTransactionSave}
-                disabled={isDisabled}
+                disabled={isDisabled || saveLoading || deleteLoading}
+                loading={saveLoading}
             >
                 Save
             </Button>,
@@ -68,8 +101,10 @@ class TransactionModal extends React.Component {
             footer.unshift(
                 <Button
                     key='delete'
-                    onClick={this.props.deleteTransaction}
+                    onClick={this.handleDeleteTransaction}
                     danger
+                    disabled={saveLoading || deleteLoading}
+                    loading={deleteLoading}
                 >
                     Delete
                 </Button>
@@ -80,10 +115,10 @@ class TransactionModal extends React.Component {
                 title='Transaction'
                 visible={true}
                 className='Transaction-Modal-Container'
-                closable={true}
-                maskClosable={true}
+                closable={!saveLoading && !deleteLoading}
+                maskClosable={!saveLoading && !deleteLoading}
                 footer={footer}
-                onCancel={this.props.handleTransactionDiscard}
+                onCancel={this.handleTransactionDiscard}
             >
                 <div className='Modal-Transaction-Amount'>
                     <Input

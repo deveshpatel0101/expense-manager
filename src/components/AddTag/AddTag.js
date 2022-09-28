@@ -19,8 +19,12 @@ class AddTag extends React.Component {
     };
 
     addTag = async (data) => {
-        await addTag(data);
-        await this.refreshTags();
+        const response = await addTag(data);
+        if (!response.error) {
+            await this.refreshTags();
+        } else {
+            alert(response.errorMessage);
+        }
     };
 
     getTags = async (page, perPage) => {
@@ -50,7 +54,7 @@ class AddTag extends React.Component {
                         tags={this.props.tags}
                         isNew={true}
                         addTag={this.addTag}
-                        handleTagDiscard={() => this.handleModal(false)}
+                        tagDiscard={() => this.handleModal(false)}
                     />
                 )}
             </div>
