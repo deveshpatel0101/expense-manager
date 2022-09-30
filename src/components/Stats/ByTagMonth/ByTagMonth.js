@@ -174,11 +174,18 @@ class ByTagMonth extends React.Component {
                 <div className='Analysis-By-Tag-Month-Data'>
                     {data.map((item, i) => (
                         <div
-                            className='Analysis-By-Tag-Month-Data-Item'
+                            className={`Analysis-By-Tag-Month-Data-Item ${
+                                item.type === 'credit'
+                                    ? 'Item-Credit'
+                                    : 'Item-Debit'
+                            }`}
                             key={i}
                         >
                             <span>{item.name}</span>
-                            <span>${Number(item.amount).toFixed(2)}</span>
+                            <span>
+                                {item.type === 'debit' && '-'}$
+                                {Number(item.amount).toFixed(2)}
+                            </span>
                         </div>
                     ))}
                 </div>
