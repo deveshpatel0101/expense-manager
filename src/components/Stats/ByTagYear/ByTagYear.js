@@ -154,7 +154,7 @@ class ByTagYear extends React.Component {
                 <div className='Analysis-By-Tag-Year-Date-Picker'>
                     <DatePicker
                         onChange={this.handleDateChange}
-                        picker='month'
+                        picker='year'
                         value={date}
                         format='YYYY'
                         disabledDate={(current) => {

@@ -1,6 +1,6 @@
 .Analysis-By-Year-Container {
     margin-top: 30px;
-    width: 100%;
+    padding-bottom: 30px;
 }
 
 .Analysis-By-Year-Date-Picker {
@@ -13,9 +13,13 @@
     text-align: center;
 }
 
-.Analysis-By-Year-Graph {
-    width: 100%;
-    margin-bottom: 15px;
+.Analysis-By-Year-Donut-Graph {
+    max-width: 400px;
+    margin: 30px auto;
+}
+
+.Analysis-By-Year-Donut-Graph canvas {
+    margin: 0 auto;
 }
 
 .Analysis-By-Year-Container .Analysis-By-Year-Nav-Buttons {

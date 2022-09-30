@@ -10,7 +10,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import './ByYear.css';
 
 import { getStats } from '../../../controllers/stats';
@@ -24,7 +24,7 @@ ChartJS.register(
     Legend
 );
 
-const getNewGraphData = (transactions) => {
+const getNewBarGraphData = (transactions) => {
     transactions.sort((l, r) =>
         moment(l.month, 'YYYY-MM-DD').diff(moment(r.month, 'YYYY-MM-DD'))
     );
@@ -54,6 +54,23 @@ const getNewGraphData = (transactions) => {
     };
 };
 
+const getNewDonutGraphData = (income, expense) => {
+    return {
+        labels: ['Income', 'Expense'],
+        datasets: [
+            {
+                data: [income, expense],
+                backgroundColor: [
+                    'rgba(75, 192, 134, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: ['rgba(75, 192, 134, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+            },
+        ],
+    };
+};
+
 const getIncomeAndExpense = (data) => {
     let income = 0;
     let expense = 0;
@@ -72,7 +89,8 @@ class ByYear extends React.Component {
         income: '0',
         expense: '0',
         date: moment(),
-        graphData: getNewGraphData([]),
+        barGraphData: getNewBarGraphData([]),
+        donutGraphData: getNewDonutGraphData(0, 0),
     };
 
     async componentDidMount() {
@@ -90,9 +108,10 @@ class ByYear extends React.Component {
             this.setState({
                 income,
                 expense,
+                barGraphData: getNewBarGraphData(res.data),
+                donutGraphData: getNewDonutGraphData(income, expense),
+                date: moment(date, 'YYYY'),
             });
-            this.setState({ graphData: getNewGraphData(res.data) });
-            this.setState({ date: moment(date, 'YYYY') });
         }
     };
 
@@ -111,7 +130,9 @@ class ByYear extends React.Component {
     };
 
     render() {
-        const { date, graphData, income, expense } = this.state;
+        const { date, barGraphData, income, expense, donutGraphData } =
+            this.state;
+
         return (
             <div className='Analysis-By-Year-Container'>
                 <div className='Analysis-By-Year-Date-Picker'>
@@ -137,9 +158,14 @@ class ByYear extends React.Component {
                     </p>
                 </div>
 
-                <div className='Analysis-By-Year-Graph'>
-                    <Bar data={graphData} />
+                <div className='Analysis-By-Year-Bar-Graph'>
+                    <Bar data={barGraphData} />
                 </div>
+
+                <div className='Analysis-By-Year-Donut-Graph'>
+                    <Doughnut data={donutGraphData} />
+                </div>
+
                 <div className='Analysis-By-Year-Nav-Buttons'>
                     <Button type='primary' onClick={this.handlePrev}>
                         Previous
