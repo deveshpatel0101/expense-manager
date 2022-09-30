@@ -1,0 +1,53 @@
+.Analysis-By-Tag-Year-Container {
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+.Analysis-By-Tag-Year-Date-Picker {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.Analysis-By-Tag-Year-Values {
+    text-align: center;
+}
+
+.Analysis-By-Tag-Year-Graph {
+    margin-bottom: 15px;
+}
+
+.Analysis-By-Tag-Year-Graph canvas {
+    min-width: 350px;
+    max-width: 350px;
+}
+
+.Analysis-By-Tag-Year-Data {
+    margin-bottom: 20px;
+}
+
+.Analysis-By-Tag-Year-Data .Analysis-By-Tag-Year-Data-Item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+}
+
+.Analysis-By-Tag-Year-Data .Analysis-By-Tag-Year-Data-Item:last-child {
+    border-bottom: none;
+}
+
+.Analysis-By-Tag-Year-Data .Analysis-By-Tag-Year-Data-Item span {
+    display: block;
+    text-transform: capitalize;
+}
+
+.Analysis-By-Tag-Year-Container .Analysis-By-Tag-Year-Nav-Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Analysis-By-Tag-Year-Container .Analysis-By-Tag-Year-Nav-Buttons button {
+    width: 48%;
+}

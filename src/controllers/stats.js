@@ -1,4 +1,4 @@
-const URL = 'https://expense-manager-api.cyclic.app';
+const URL = window.location.host.includes('localhost') ? 'http://localhost:5000' : 'https://expense-manager-api.cyclic.app';
 
 export const getStats = async (query) => {
     const urlQueries = [];

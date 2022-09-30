@@ -1,6 +1,7 @@
 import { validateResponse } from '../utils/validateResponse';
 
-const URL = 'https://expense-manager-api.cyclic.app';
+const URL = window.location.host.includes('localhost') ? 'http://localhost:5000' : 'https://expense-manager-api.cyclic.app';
+
 const filtersToSend = {
     fromDate: true,
     toDate: true,

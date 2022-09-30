@@ -1,6 +1,6 @@
 import { validateResponse } from '../utils/validateResponse';
 
-const URL = 'https://expense-manager-api.cyclic.app';
+const URL = window.location.host.includes('localhost') ? 'http://localhost:5000' : 'https://expense-manager-api.cyclic.app';
 
 export const getTags = async (page = 1, perPage = 100) => {
     const response = await fetch(

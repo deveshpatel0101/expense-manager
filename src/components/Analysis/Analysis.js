@@ -4,6 +4,8 @@ import './Analysis.css';
 import { Select } from 'antd';
 import ByMonth from '../Stats/ByMonth/ByMonth';
 import ByYear from '../Stats/ByYear/ByYear';
+import ByTagMonth from '../Stats/ByTagMonth/ByTagMonth';
+import ByTagYear from '../Stats/ByTagYear/ByTagYear';
 
 const { Option } = Select;
 
@@ -28,7 +30,8 @@ class Analysis extends React.Component {
                     >
                         <Option value='month'>Month</Option>
                         <Option value='year'>Year</Option>
-                        <Option value='tag'>Tag</Option>
+                        <Option value='tag-month'>Tag - Month</Option>
+                        <Option value='tag-year'>Tag - Year</Option>
                     </Select>
                 </div>
 
@@ -43,7 +46,18 @@ class Analysis extends React.Component {
                         <ByYear />
                     </div>
                 )}
-                {this.state.view === 'tag' && 'Coming soon...'}
+
+                {this.state.view === 'tag-month' && (
+                    <div className='Analysis-Tag-Month-Graph'>
+                        <ByTagMonth />
+                    </div>
+                )}
+
+                {this.state.view === 'tag-year' && (
+                    <div className='Analysis-Tag-Year-Graph'>
+                        <ByTagYear />
+                    </div>
+                )}
             </div>
         );
     }
