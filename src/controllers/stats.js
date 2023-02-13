@@ -1,4 +1,6 @@
-const URL = window.location.host.includes('localhost') ? 'http://localhost:5000' : 'https://expense-manager-api.cyclic.app';
+import { validateResponse } from '../utils/validateResponse';
+
+const URL = 'https://expense-manager-api.cyclic.app';
 
 export const getStats = async (query) => {
     const urlQueries = [];
@@ -13,5 +15,6 @@ export const getStats = async (query) => {
             },
         }
     );
+    validateResponse(response);
     return response.json();
 };
