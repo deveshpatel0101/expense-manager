@@ -1,6 +1,6 @@
 import { validateResponse } from '../utils/validateResponse';
 
-const URL = 'https://expense-manager-api.cyclic.app';
+const URL = 'https://expense-manager-api.helioho.st';
 
 const filtersToSend = {
     fromDate: true,
