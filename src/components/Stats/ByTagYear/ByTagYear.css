@@ -46,6 +46,11 @@
     background-color: #ffc7c7;
 }
 
+.Analysis-By-Tag-Year-Data .Analysis-By-Tag-Year-Data-Item.Item-Saved {
+    background-color: #c7c9ff;
+    font-weight: bold;
+}
+
 .Analysis-By-Tag-Year-Data .Analysis-By-Tag-Year-Data-Item span {
     display: block;
     text-transform: capitalize;

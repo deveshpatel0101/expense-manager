@@ -25,3 +25,32 @@
 .Analysis-By-Month-Container .Analysis-By-Month-Nav-Buttons button {
     width: 48%;
 }
+
+.Analysis-By-Month-Values {
+    margin-bottom: 20px;
+    border: 1px solid black;
+}
+
+.Analysis-By-Month-Values > div {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding: 5px 10px;
+}
+
+.Analysis-By-Month-Values > div:last-child {
+    border-bottom: none;
+    font-weight: bold;
+}
+
+.Analysis-By-Month-Values > .Analysis-By-Month-Income {
+    background-color: #c9ffc9;
+}
+
+.Analysis-By-Month-Values > .Analysis-By-Month-Expense {
+    background-color: #ffc7c7;
+}
+
+.Analysis-By-Month-Values > .Analysis-By-Month-Saved {
+    background-color: #c7c9ff;
+}

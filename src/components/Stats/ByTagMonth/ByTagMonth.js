@@ -184,7 +184,7 @@ class ByTagMonth extends React.Component {
                             <span>{item.name}</span>
                             <span>
                                 {item.type === 'debit' && '-'}$
-                                {Number(item.amount).toFixed(2)}
+                                {Number(item.amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </span>
                         </div>
                     ))}

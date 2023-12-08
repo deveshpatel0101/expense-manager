@@ -63,8 +63,9 @@ const getNewGraphData = (tags, amounts) => {
 class ByTagYear extends React.Component {
     state = {
         tags: [],
-        amounts: [],
         data: [],
+        income: 0,
+        expense: 0,
         date: moment(),
         graphData: getNewGraphData([], []),
     };
@@ -110,19 +111,27 @@ class ByTagYear extends React.Component {
             a.amount < b.amount ? 1 : a.amount === b.amount ? 0 : -1
         );
 
-        const amounts = this.getAmounts(tags, data);
+        const { amounts, income, expense } = this.getAmounts(tags, data);
         this.setState({
             data,
-            amounts,
             graphData: getNewGraphData(tags, amounts),
             date: moment(date, 'YYYY-MM'),
+            income,
+            expense,
         });
     };
 
     getAmounts = (tags, data) => {
         const amountsByName = {};
+        let income = 0;
+        let expense = 0;
         for (const item of data) {
-            amountsByName[item.name] = Number(item.amount);
+            amountsByName[item.name] = item.amount;
+            if (item.type === 'credit') {
+                income += item.amount;
+            } else {
+                expense += item.amount;
+            }
         }
 
         const amounts = [];
@@ -130,7 +139,7 @@ class ByTagYear extends React.Component {
             amounts.push(amountsByName[tag]);
         }
 
-        return amounts;
+        return { amounts, income, expense };
     };
 
     handleDateChange = async (e) => {
@@ -148,7 +157,7 @@ class ByTagYear extends React.Component {
     };
 
     render() {
-        const { date, graphData, data } = this.state;
+        const { date, graphData, data, income, expense } = this.state;
         return (
             <div className='Analysis-By-Tag-Year-Container'>
                 <div className='Analysis-By-Tag-Year-Date-Picker'>
@@ -183,10 +192,25 @@ class ByTagYear extends React.Component {
                             <span>{item.name}</span>
                             <span>
                                 {item.type === 'debit' && '-'}$
-                                {Number(item.amount).toFixed(2)}
+                                {item.amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </span>
                         </div>
                     ))}
+                </div>
+
+                <div className='Analysis-By-Tag-Year-Data'>
+                    <div className='Analysis-By-Tag-Year-Data-Item Item-Credit'>
+                        <span>Income</span>
+                        <span>${income.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                    </div>
+                    <div className='Analysis-By-Tag-Year-Data-Item Item-Debit'>
+                        <span>Expense</span>
+                        <span>-${expense.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                    </div>
+                    <div className='Analysis-By-Tag-Year-Data-Item Item-Saved'>
+                        <span>Saved</span>
+                        <span>${(income - expense).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                    </div>
                 </div>
 
                 <div className='Analysis-By-Tag-Year-Nav-Buttons'>

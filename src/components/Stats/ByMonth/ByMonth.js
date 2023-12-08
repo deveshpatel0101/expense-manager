@@ -90,12 +90,26 @@ class ByMonth extends React.Component {
                     />
                 </div>
                 <div className='Analysis-By-Month-Values'>
-                    <p>
-                        Income: {income.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    </p>
-                    <p>
-                        Expense: {expense.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    </p>
+                    <div className='Analysis-By-Month-Income'>
+                        <span>Income</span>
+                        <span>
+                            ${income.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        </span>
+                    </div>
+                    <div className='Analysis-By-Month-Expense'>
+                        <span>Expense</span>
+                        <span>
+                            ${expense.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        </span>
+                    </div>
+                    <div className='Analysis-By-Month-Saved'>
+                        <span>Saved</span>
+                        <span>
+                            ${(parseFloat(income) - parseFloat(expense))
+                                .toFixed(2)
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        </span>
+                    </div>
                 </div>
 
                 <div className='Analysis-By-Month-Graph'>
