@@ -74,6 +74,9 @@ const getNewDonutGraphData = (income, expense) => {
 const getIncomeAndExpense = (data) => {
     let income = 0;
     let expense = 0;
+    let avgIncome = 0;
+    let avgExpense = 0;
+
     for (let transaction of data) {
         income += Number(transaction.income);
         expense += Number(transaction.expense);
@@ -81,13 +84,19 @@ const getIncomeAndExpense = (data) => {
         expense = Number(expense.toFixed(2));
     }
 
-    return { income: income.toFixed(2), expense: expense.toFixed(2) };
+    avgIncome = (income / data.length).toFixed(2);
+    avgExpense = (expense / data.length).toFixed(2);
+    income = income.toFixed(2);
+    expense = expense.toFixed(2);
+    return { income, expense, avgIncome, avgExpense };
 };
 
 class ByYear extends React.Component {
     state = {
         income: '0',
         expense: '0',
+        avgIncome: '0',
+        avgExpense: '0',
         date: moment(),
         barGraphData: getNewBarGraphData([]),
         donutGraphData: getNewDonutGraphData(0, 0),
@@ -104,10 +113,13 @@ class ByYear extends React.Component {
         });
 
         if (!res.error) {
-            const { income, expense } = getIncomeAndExpense(res.data);
+            const { income, expense, avgIncome, avgExpense } =
+                getIncomeAndExpense(res.data);
             this.setState({
                 income,
                 expense,
+                avgIncome,
+                avgExpense,
                 barGraphData: getNewBarGraphData(res.data),
                 donutGraphData: getNewDonutGraphData(income, expense),
                 date: moment(date, 'YYYY'),
@@ -130,8 +142,17 @@ class ByYear extends React.Component {
     };
 
     render() {
-        const { date, barGraphData, income, expense, donutGraphData } =
-            this.state;
+        const {
+            date,
+            barGraphData,
+            income,
+            expense,
+            avgIncome,
+            avgExpense,
+            donutGraphData,
+        } = this.state;
+        const savings = (Number(income) - Number(expense)).toFixed(2);
+        const avgSavings = (Number(avgIncome) - Number(avgExpense)).toFixed(2);
 
         return (
             <div className='Analysis-By-Year-Container'>
@@ -150,12 +171,49 @@ class ByYear extends React.Component {
                     />
                 </div>
                 <div className='Analysis-By-Year-Values'>
-                    <p>
-                        Income: {income.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    </p>
-                    <p>
-                        Expense: {expense.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    </p>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Combined</th>
+                            <th>Average</th>
+                        </tr>
+                        <tr className='Analysis-By-Year-Values-Item Item-Credit'>
+                            <td>Income</td>
+                            <td>
+                                {income.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </td>
+                            <td>
+                                {avgIncome.replace(
+                                    /\B(?=(\d{3})+(?!\d))/g,
+                                    ','
+                                )}
+                            </td>
+                        </tr>
+                        <tr className='Analysis-By-Year-Values-Item Item-Debit'>
+                            <td>Expense</td>
+                            <td>
+                                {expense.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </td>
+                            <td>
+                                {avgExpense.replace(
+                                    /\B(?=(\d{3})+(?!\d))/g,
+                                    ','
+                                )}
+                            </td>
+                        </tr>
+                        <tr className='Analysis-By-Year-Values-Item Item-Saved'>
+                            <td>Savings</td>
+                            <td>
+                                {savings.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </td>
+                            <td>
+                                {avgSavings.replace(
+                                    /\B(?=(\d{3})+(?!\d))/g,
+                                    ','
+                                )}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div className='Analysis-By-Year-Bar-Graph'>

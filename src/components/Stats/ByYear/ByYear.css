@@ -1,6 +1,9 @@
 .Analysis-By-Year-Container {
     margin-top: 30px;
     padding-bottom: 30px;
+    max-width: 400px;
+    min-width: 400px;
+    margin: 30px auto 0;
 }
 
 .Analysis-By-Year-Date-Picker {
@@ -10,12 +13,42 @@
 }
 
 .Analysis-By-Year-Values {
-    text-align: center;
+    max-width: 350px;
+    margin: 0 auto 30px;
 }
 
+.Analysis-By-Year-Values table {
+    width: 100%;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.Analysis-By-Year-Values th,
+td {
+    border: 1px solid black;
+}
+
+.Analysis-By-Year-Values .Analysis-By-Year-Values-Item.Item-Credit {
+    background-color: #c9ffc9;
+}
+
+.Analysis-By-Year-Values .Analysis-By-Year-Values-Item.Item-Debit {
+    background-color: #ffc7c7;
+}
+
+.Analysis-By-Year-Values .Analysis-By-Year-Values-Item.Item-Saved {
+    background-color: #c7c9ff;
+    font-weight: bold;
+}
+
+.Analysis-By-Year-Bar-Graph,
 .Analysis-By-Year-Donut-Graph {
-    max-width: 400px;
-    margin: 30px auto;
+    margin: 0 auto 15px;
+}
+
+.Analysis-By-Year-Bar-Graph canvas {
+    width: 100%;
+    margin: 0 auto;
 }
 
 .Analysis-By-Year-Donut-Graph canvas {

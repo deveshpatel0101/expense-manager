@@ -7,6 +7,7 @@ export const getStats = async (query) => {
     for (let prop in query) {
         urlQueries.push(`${prop}=${query[prop]}`);
     }
+    urlQueries.push(`timezone=${getTimeZone()}`);
     const response = await fetch(
         `${URL}/transactions/stats?${urlQueries.join('&')}`,
         {
@@ -17,4 +18,8 @@ export const getStats = async (query) => {
     );
     validateResponse(response);
     return response.json();
+};
+
+const getTimeZone = () => {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
 };
